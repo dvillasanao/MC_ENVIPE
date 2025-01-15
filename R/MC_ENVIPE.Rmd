@@ -10,6 +10,12 @@ output:
       toc_depth: 2
       toc_float:
         collapsed: yes
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "../Output"
+    )
+  })
 ---
 
 \usepackage{color}
