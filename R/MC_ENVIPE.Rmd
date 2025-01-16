@@ -1,6 +1,6 @@
 ---
 title: "Muestreo Complejo"
-subtitle: 'Encuesta Nacional de Victimización y Percepción sobre la Pública'
+subtitle: 'Encuesta Nacional de Victimización y Percepción sobre la Pública (ENVIPE)'
 author: "Diana Villasana Ocampo"
 output:
    html_document:
@@ -115,6 +115,8 @@ require(gt)
 require(ggplot2)
 require(ggpubr)
 require(ggrepel)
+require(knitr)
+require(kableExtra)
 ```
 
 **Bases de datos**
@@ -871,5 +873,72 @@ ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
 ![](../Output/ENVIPE_Region_Hogar.png)
 
+### Comparativos a nivel Dominio{.tabset .tabset-pills}
 
+```{r}
+Dominio_Hogar <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
+                           sheet = "Tablas", 
+                           range = "T47:AH51",
+                           col_names = TRUE)
+```
+
+
+
+```{r, eval = FALSE, class.source = "fold-hide"}
+require(reshape2)
+require(Hmisc)
+
+tabla <- Dominio_Hogar %>%
+          melt() %>% 
+           filter(Dominio %nin% "Total") 
+
+p <- tabla %>%
+      ggplot(aes(x = variable, y = value)) +
+       geom_point(aes(color = Dominio)) + 
+        geom_line(aes(color = Dominio, group = Dominio)) + 
+         geom_text(data = tabla,
+                   aes(x = variable, 
+                       y = value, 
+                       label = format(value, big.mark = " "),
+                       color = Dominio, 
+                       group = Dominio),
+                   size = 2,
+                   angle = 60
+                   ) +
+           theme_bw() + 
+            theme(text = element_text(family = "Montserrat"),
+                  axis.text.y = element_text(size = 8),
+                  axis.text.x = element_text(size = 6, angle = 45, vjust = 0),
+                  plot.caption = element_text(size = 7, hjust = 0, vjust = -1.5, family = "Montserrat"),
+            ) +
+             scale_y_continuous(labels = scales::comma) +
+             scale_color_manual(values = colorRampPalette(LaCroixColoR::lacroix_palette("PassionFruit", n = 50, type = "continuous"))(6)
+                                ) + 
+             labs(title = stringr::str_wrap("Número de personas que declararon haber cambiado de vivienda o lugar de residencia para protegerse de la delincuencia, 2011 - 2023", 80),
+                  subtitle = "Desagregado por Dominio",
+                  x = "",
+                  y = "Estimaciones",
+                  color = "",
+                  caption = expression(paste("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.")))
+
+p
+
+path = paste0(here::here(),"/Output/ENVIPE_Dominio_Hogar.pdf")
+ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
+```
+
+
+![](../Output/ENVIPE_Dominio_Hogar.png)
+
+```{r, collapse=FALSE}
+sesion_info <- devtools::session_info()
+```
+
+```{r, echo = FALSE}
+kable(dplyr::select(tibble::as_tibble(sesion_info$packages %>% dplyr::filter(attached == TRUE)),
+                    c(package, loadedversion, source))) %>%
+   kable_classic(full_width = TRUE, html_font = "montserrat", font_size = 10) 
+```
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img src="https://i.creativecommons.org/l/by/4.0/88x31.png" alt="Creative Commons Licence" style="border-width:0"/></a><br />This work by [**Diana Villasana Ocampo**]{xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName"} is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
 
