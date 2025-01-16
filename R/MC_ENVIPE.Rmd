@@ -254,11 +254,162 @@ ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 
 
 
-
 ![](../Output/ENVIPE_Comparativo de 2 años.png)
 
 
+#### Promedio de 3 años
 
+```{r, eval = FALSE, class.source = "fold-hide"}
+p <- Personas %>% 
+      ggplot(aes(x = Año, y = Est)) + 
+       geom_point(aes(color = "LINE1")) + 
+        geom_line(aes(color = "LINE1")) + 
+        geom_ribbon(aes(ymin = CI, ymax = CS), 
+                    linetype = 2, 
+                    alpha = 0.1) + 
+        geom_text_repel(aes(label = format(Est, big.mark = " ")),
+                        position = position_jitter(seed = 123),
+                        size = 2,
+                        color = "#900C3F",
+                        angle = 45, 
+                        force = 0.7,
+                        segment.linetype = 1,
+                        direction = c("both"),
+                        family = "Montserrat",
+                          max.overlaps = 2) + 
+         ## Promedio de 2 años 
+          geom_point(aes(x = Año - 1, y = P.3años, color = "LINE2")) + 
+          geom_line(aes(x = Año - 1, y = P.3años, color = "LINE2")) + 
+          geom_text_repel(aes(x = Año - 1, y = P.3años, label = format(P.3años, big.mark = " ")),
+                          position = position_jitter(seed = 123),
+                          size = 2,
+                          color = "#7e33b8",
+                          angle = 45, 
+                          force = 0.7,
+                          segment.linetype = 1,
+                          direction = c("both"),
+                          family = "Montserrat",
+                          max.overlaps = 2) +
+           ## Variaciones
+           geom_text(data = Personas %>% slice(3:14),
+                     aes(x = Año - 1, 
+                         y = 150000, 
+                         label = format(Var.3años, digits = 2, nsmall = 1),
+                         color = "LINE3"),
+                     size = 2.5,
+                     vjust = 1,
+                     fontface = "bold",
+                     angle = 90, 
+                     family = "Montserrat"
+                       ) +
+           theme_bw() + 
+            theme(text = element_text(family = "Montserrat"),
+                  axis.text.y = element_text(size = 8),
+                  axis.text.x = element_text(size = 6, angle = 45, vjust = 0),
+                  plot.caption = element_text(size = 7, hjust = 0, vjust = -1.5, family = "Montserrat"),
+            ) +
+             scale_y_continuous(labels = scales::comma) +
+             scale_x_discrete(limits = seq(2011, 2024, 1)) +
+             scale_color_manual(labels = c("Estimaciones",
+                                           "Promedio (3 años)",
+                                           "Variaciones"),
+                                values = c("LINE1" = "#900C3F",
+                                           "LINE2" = "#3a0d5c",
+                                           "LINE3" = "#52306c")
+                                ) + 
+             labs(title = stringr::str_wrap("Número de personas que declararon haber cambiado de vivienda o lugar de residencia para protegerse de la delincuencia, 2011 - 2023", 80),
+                  subtitle = "Comparativo con el promedio de 3 años",
+                  x = "",
+                  y = "Estimaciones",
+                  color = "",
+                  caption = expression(paste("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.")))
+
+p
+
+path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 3 años.pdf")
+ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
+```
+
+
+
+![](../Output/ENVIPE_Comparativo de 3 años.png)
+
+#### Promedio de 4 años
+
+```{r, eval = FALSE, class.source = "fold-hide"}
+p <- Personas %>% 
+      ggplot(aes(x = Año, y = Est)) + 
+       geom_point(aes(color = "LINE1")) + 
+        geom_line(aes(color = "LINE1")) + 
+        geom_ribbon(aes(ymin = CI, ymax = CS), 
+                    linetype = 2, 
+                    alpha = 0.1) + 
+        geom_text_repel(aes(label = format(Est, big.mark = " ")),
+                        position = position_jitter(seed = 123),
+                        size = 2,
+                        color = "#900C3F",
+                        angle = 45, 
+                        force = 0.7,
+                        segment.linetype = 1,
+                        direction = c("both"),
+                        family = "Montserrat",
+                          max.overlaps = 2) + 
+         ## Promedio de 2 años 
+          geom_point(aes(x = Año - 1, y = P.4años, color = "LINE2")) + 
+          geom_line(aes(x = Año - 1, y = P.4años, color = "LINE2")) + 
+          geom_text_repel(aes(x = Año - 1, y = P.4años, label = format(P.4años, big.mark = " ")),
+                          position = position_jitter(seed = 123),
+                          size = 2,
+                          color = "#02360d",
+                          angle = 45, 
+                          force = 0.7,
+                          segment.linetype = 1,
+                          direction = c("both"),
+                          family = "Montserrat",
+                          max.overlaps = 2) +
+           ## Variaciones
+           geom_text(data = Personas %>% slice(4:14),
+                     aes(x = Año - 1, 
+                         y = 150000, 
+                         label = format(Var.4años, digits = 2, nsmall = 1),
+                         color = "LINE3"),
+                     size = 2.5,
+                     vjust = 1,
+                     fontface = "bold",
+                     angle = 90, 
+                     family = "Montserrat"
+                       ) +
+           theme_bw() + 
+            theme(text = element_text(family = "Montserrat"),
+                  axis.text.y = element_text(size = 8),
+                  axis.text.x = element_text(size = 6, angle = 45, vjust = 0),
+                  plot.caption = element_text(size = 7, hjust = 0, vjust = -1.5, family = "Montserrat"),
+            ) +
+             scale_y_continuous(labels = scales::comma) +
+             scale_x_discrete(limits = seq(2011, 2024, 1)) +
+             scale_color_manual(labels = c("Estimaciones",
+                                           "Promedio (4 años)",
+                                           "Variaciones"),
+                                values = c("LINE1" = "#900C3F",
+                                           "LINE2" = "#2cb141",
+                                           "LINE3" = "#146157")
+                                ) + 
+             labs(title = stringr::str_wrap("Número de personas que declararon haber cambiado de vivienda o lugar de residencia para protegerse de la delincuencia, 2011 - 2023", 80),
+                  subtitle = "Comparativo con el promedio de 4 años",
+                  x = "",
+                  y = "Estimaciones",
+                  color = "",
+                  caption = expression(paste("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.")))
+
+p
+
+path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 4 años.pdf")
+ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
+```
+
+
+
+![](../Output/ENVIPE_Comparativo de 4 años.png)
 
 ## Hogares
 
@@ -313,3 +464,237 @@ Hogares %>%
         as_raw_html() 
 ```
 
+
+
+### Comparativos{.tabset .tabset-pills}
+
+#### Promedio de 2 años
+
+```{r, eval = FALSE, class.source = "fold-hide"}
+p <- Hogares %>% 
+      ggplot(aes(x = Año, y = Est)) + 
+       geom_point(aes(color = "LINE1")) + 
+        geom_line(aes(color = "LINE1")) + 
+        geom_ribbon(aes(ymin = CI, ymax = CS), 
+                    linetype = 2, 
+                    alpha = 0.1) + 
+        geom_text_repel(aes(label = format(Est, big.mark = " ")),
+                        position = position_jitter(seed = 123),
+                        size = 2,
+                        color = "#900C3F",
+                        angle = 45, 
+                        force = 0.7,
+                        segment.linetype = 1,
+                        direction = c("both"),
+                        family = "Montserrat",
+                          max.overlaps = 2) + 
+         ## Promedio de 2 años 
+          geom_point(aes(x = Año - 0.5, y = P.2años, color = "LINE2")) + 
+          geom_line(aes(x = Año - 0.5, y = P.2años, color = "LINE2")) + 
+          geom_text_repel(aes(x = Año - 0.5, y = P.2años, label = format(P.2años, big.mark = " ")),
+                          position = position_jitter(seed = 123),
+                          size = 2,
+                          color = "#194c65",
+                          angle = 45, 
+                          force = 0.7,
+                          segment.linetype = 1,
+                          direction = c("both"),
+                          family = "Montserrat",
+                          max.overlaps = 2) +
+           ## Variaciones
+           geom_text(aes(x = Año - 0.5, 
+                         y = 450000, 
+                         label = format(Var.2años, digits = 2, nsmall = 1),
+                         color = "LINE3"),
+                     size = 2.5,
+                     vjust = 1,
+                     fontface = "bold",
+                     angle = 90, 
+                     family = "Montserrat"
+                       ) +
+           theme_bw() + 
+            theme(text = element_text(family = "Montserrat"),
+                  axis.text.y = element_text(size = 8),
+                  axis.text.x = element_text(size = 6, angle = 45, vjust = 0),
+                  plot.caption = element_text(size = 7, hjust = 0, vjust = -1.5, family = "Montserrat"),
+            ) +
+             scale_y_continuous(labels = scales::comma) +
+             scale_x_discrete(limits = seq(2011, 2024, 1)) +
+             scale_color_manual(labels = c("Estimaciones",
+                                           "Promedio (2 años)",
+                                           "Variaciones"),
+                                values = c("LINE1" = "#900C3F",
+                                           "LINE2" = "#48b6ec",
+                                           "LINE3" = "#1f42c1")
+                                ) + 
+             labs(title = stringr::str_wrap("Número de personas en el hogar que declararon haber cambiado de vivienda o lugar de residencia para protegerse de la delincuencia, 2011 - 2023", 80),
+                  subtitle = "Comparativo con el promedio de 2 años",
+                  x = "",
+                  y = "Estimaciones",
+                  color = "",
+                  caption = expression(paste("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.")))
+
+p
+
+path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 2 años_Hogar.pdf")
+ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
+```
+
+
+
+![](../Output/ENVIPE_Comparativo de 2 años.png)
+
+
+#### Promedio de 3 años
+
+```{r, eval = FALSE, class.source = "fold-hide"}
+p <- Personas %>% 
+      ggplot(aes(x = Año, y = Est)) + 
+       geom_point(aes(color = "LINE1")) + 
+        geom_line(aes(color = "LINE1")) + 
+        geom_ribbon(aes(ymin = CI, ymax = CS), 
+                    linetype = 2, 
+                    alpha = 0.1) + 
+        geom_text_repel(aes(label = format(Est, big.mark = " ")),
+                        position = position_jitter(seed = 123),
+                        size = 2,
+                        color = "#900C3F",
+                        angle = 45, 
+                        force = 0.7,
+                        segment.linetype = 1,
+                        direction = c("both"),
+                        family = "Montserrat",
+                          max.overlaps = 2) + 
+         ## Promedio de 2 años 
+          geom_point(aes(x = Año - 1, y = P.3años, color = "LINE2")) + 
+          geom_line(aes(x = Año - 1, y = P.3años, color = "LINE2")) + 
+          geom_text_repel(aes(x = Año - 1, y = P.3años, label = format(P.3años, big.mark = " ")),
+                          position = position_jitter(seed = 123),
+                          size = 2,
+                          color = "#7e33b8",
+                          angle = 45, 
+                          force = 0.7,
+                          segment.linetype = 1,
+                          direction = c("both"),
+                          family = "Montserrat",
+                          max.overlaps = 2) +
+           ## Variaciones
+           geom_text(data = Personas %>% slice(3:14),
+                     aes(x = Año - 1, 
+                         y = 450000, 
+                         label = format(Var.3años, digits = 2, nsmall = 1),
+                         color = "LINE3"),
+                     size = 2.5,
+                     vjust = 1,
+                     fontface = "bold",
+                     angle = 90, 
+                     family = "Montserrat"
+                       ) +
+           theme_bw() + 
+            theme(text = element_text(family = "Montserrat"),
+                  axis.text.y = element_text(size = 8),
+                  axis.text.x = element_text(size = 6, angle = 45, vjust = 0),
+                  plot.caption = element_text(size = 7, hjust = 0, vjust = -1.5, family = "Montserrat"),
+            ) +
+             scale_y_continuous(labels = scales::comma) +
+             scale_x_discrete(limits = seq(2011, 2024, 1)) +
+             scale_color_manual(labels = c("Estimaciones",
+                                           "Promedio (3 años)",
+                                           "Variaciones"),
+                                values = c("LINE1" = "#900C3F",
+                                           "LINE2" = "#3a0d5c",
+                                           "LINE3" = "#52306c")
+                                ) + 
+             labs(title = stringr::str_wrap("Número de personas en el hogar que declararon haber cambiado de vivienda o lugar de residencia para protegerse de la delincuencia, 2011 - 2023", 80),
+                  subtitle = "Comparativo con el promedio de 3 años",
+                  x = "",
+                  y = "Estimaciones",
+                  color = "",
+                  caption = expression(paste("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.")))
+
+p
+
+path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 3 años_Hogar.pdf")
+ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
+```
+
+
+
+![](../Output/ENVIPE_Comparativo de 3 años.png)
+
+#### Promedio de 4 años
+
+```{r, eval = FALSE, class.source = "fold-hide"}
+p <- Personas %>% 
+      ggplot(aes(x = Año, y = Est)) + 
+       geom_point(aes(color = "LINE1")) + 
+        geom_line(aes(color = "LINE1")) + 
+        geom_ribbon(aes(ymin = CI, ymax = CS), 
+                    linetype = 2, 
+                    alpha = 0.1) + 
+        geom_text_repel(aes(label = format(Est, big.mark = " ")),
+                        position = position_jitter(seed = 123),
+                        size = 2,
+                        color = "#900C3F",
+                        angle = 45, 
+                        force = 0.7,
+                        segment.linetype = 1,
+                        direction = c("both"),
+                        family = "Montserrat",
+                          max.overlaps = 2) + 
+         ## Promedio de 2 años 
+          geom_point(aes(x = Año - 1, y = P.4años, color = "LINE2")) + 
+          geom_line(aes(x = Año - 1, y = P.4años, color = "LINE2")) + 
+          geom_text_repel(aes(x = Año - 1, y = P.4años, label = format(P.4años, big.mark = " ")),
+                          position = position_jitter(seed = 123),
+                          size = 2,
+                          color = "#02360d",
+                          angle = 45, 
+                          force = 0.7,
+                          segment.linetype = 1,
+                          direction = c("both"),
+                          family = "Montserrat",
+                          max.overlaps = 2) +
+           ## Variaciones
+           geom_text(data = Personas %>% slice(4:14),
+                     aes(x = Año - 1, 
+                         y = 450000, 
+                         label = format(Var.4años, digits = 2, nsmall = 1),
+                         color = "LINE3"),
+                     size = 2.5,
+                     vjust = 1,
+                     fontface = "bold",
+                     angle = 90, 
+                     family = "Montserrat"
+                       ) +
+           theme_bw() + 
+            theme(text = element_text(family = "Montserrat"),
+                  axis.text.y = element_text(size = 8),
+                  axis.text.x = element_text(size = 6, angle = 45, vjust = 0),
+                  plot.caption = element_text(size = 7, hjust = 0, vjust = -1.5, family = "Montserrat"),
+            ) +
+             scale_y_continuous(labels = scales::comma) +
+             scale_x_discrete(limits = seq(2011, 2024, 1)) +
+             scale_color_manual(labels = c("Estimaciones",
+                                           "Promedio (4 años)",
+                                           "Variaciones"),
+                                values = c("LINE1" = "#900C3F",
+                                           "LINE2" = "#2cb141",
+                                           "LINE3" = "#146157")
+                                ) + 
+             labs(title = stringr::str_wrap("Número de personas en el hogar que declararon haber cambiado de vivienda o lugar de residencia para protegerse de la delincuencia, 2011 - 2023", 80),
+                  subtitle = "Comparativo con el promedio de 4 años",
+                  x = "",
+                  y = "Estimaciones",
+                  color = "",
+                  caption = expression(paste("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.")))
+
+p
+
+path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 4 años_Hogar.pdf")
+ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
+```
+
+
+
+![](../Output/ENVIPE_Comparativo de 4 años.png)
