@@ -548,7 +548,7 @@ ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 #### Promedio de 3 años
 
 ```{r, eval = FALSE, class.source = "fold-hide"}
-p <- Personas %>% 
+p <- Hogares %>% 
       ggplot(aes(x = Año, y = Est)) + 
        geom_point(aes(color = "LINE1")) + 
         geom_line(aes(color = "LINE1")) + 
@@ -620,12 +620,12 @@ ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 
 
 
-![](../Output/ENVIPE_Comparativo de 3 años.png)
+![](../Output/ENVIPE_Comparativo de 3 años_Hogar.png)
 
 #### Promedio de 4 años
 
 ```{r, eval = FALSE, class.source = "fold-hide"}
-p <- Personas %>% 
+p <- Hogares %>% 
       ggplot(aes(x = Año, y = Est)) + 
        geom_point(aes(color = "LINE1")) + 
         geom_line(aes(color = "LINE1")) + 
@@ -697,4 +697,4 @@ ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 
 
 
-![](../Output/ENVIPE_Comparativo de 4 años.png)
+![](../Output/ENVIPE_Comparativo de 4 años_Hogar.png)
