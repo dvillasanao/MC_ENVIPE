@@ -411,6 +411,61 @@ ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 
 ![](../Output/ENVIPE_Comparativo de 4 años.png)
 
+### Comparativos a nivel Regional{.tabset .tabset-pills}
+
+```{r}
+Region <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
+                    sheet = "Tablas", 
+                    range = "C39:Q45",
+                    col_names = TRUE)
+```
+
+
+
+```{r, eval = FALSE, class.source = "fold-hide"}
+require(reshape2)
+require(Hmisc)
+
+tabla <- Region %>%
+          melt() %>% 
+           filter(Región %nin% "Total") 
+
+p <- tabla %>%
+      ggplot(aes(x = variable, y = value)) +
+       geom_point(aes(color = Región)) + 
+        geom_line(aes(color = Región, group = Región)) + 
+         geom_text(data = tabla,
+                   aes(x = variable, 
+                       y = value, 
+                       label = format(value, big.mark = " "),
+                       color = Región, 
+                       group = Región),
+                   size = 2,
+                   angle = 60
+                   ) +
+           theme_bw() + 
+            theme(text = element_text(family = "Montserrat"),
+                  axis.text.y = element_text(size = 8),
+                  axis.text.x = element_text(size = 6, angle = 45, vjust = 0),
+                  plot.caption = element_text(size = 7, hjust = 0, vjust = -1.5, family = "Montserrat"),
+            ) +
+             scale_y_continuous(labels = scales::comma) +
+             scale_color_manual(values = colorRampPalette(LaCroixColoR::lacroix_palette("PassionFruit", n = 50, type = "continuous"))(6)
+                                ) + 
+             labs(title = stringr::str_wrap("Número de personas que declararon haber cambiado de vivienda o lugar de residencia para protegerse de la delincuencia, 2011 - 2023", 80),
+                  subtitle = "Desagregado por región",
+                  x = "",
+                  y = "Estimaciones",
+                  color = "",
+                  caption = expression(paste("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.")))
+
+p
+
+path = paste0(here::here(),"/Output/ENVIPE_Region.pdf")
+ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
+```
+![](../Output/ENVIPE_Region.png)
+
 ## Hogares
 
 AP4_11_10 4.11 Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?
@@ -698,3 +753,60 @@ ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 
 
 ![](../Output/ENVIPE_Comparativo de 4 años_Hogar.png)
+
+
+
+### Comparativos a nivel Regional{.tabset .tabset-pills}
+
+```{r}
+Region_Hogar <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
+                          sheet = "Tablas", 
+                          range = "T39:AH45",
+                          col_names = TRUE)
+```
+
+
+
+```{r, eval = FALSE, class.source = "fold-hide"}
+require(reshape2)
+require(Hmisc)
+
+tabla <- Region_Hogar %>%
+          melt() %>% 
+           filter(Región %nin% "Total") 
+
+p <- tabla %>%
+      ggplot(aes(x = variable, y = value)) +
+       geom_point(aes(color = Región)) + 
+        geom_line(aes(color = Región, group = Región)) + 
+         geom_text(data = tabla,
+                   aes(x = variable, 
+                       y = value, 
+                       label = format(value, big.mark = " "),
+                       color = Región, 
+                       group = Región),
+                   size = 2,
+                   angle = 60
+                   ) +
+           theme_bw() + 
+            theme(text = element_text(family = "Montserrat"),
+                  axis.text.y = element_text(size = 8),
+                  axis.text.x = element_text(size = 6, angle = 45, vjust = 0),
+                  plot.caption = element_text(size = 7, hjust = 0, vjust = -1.5, family = "Montserrat"),
+            ) +
+             scale_y_continuous(labels = scales::comma) +
+             scale_color_manual(values = colorRampPalette(LaCroixColoR::lacroix_palette("PassionFruit", n = 50, type = "continuous"))(6)
+                                ) + 
+             labs(title = stringr::str_wrap("Número de personas en el hogar que declararon haber cambiado de vivienda o lugar de residencia para protegerse de la delincuencia, 2011 - 2023", 80),
+                  subtitle = "Desagregado por región",
+                  x = "",
+                  y = "Estimaciones",
+                  color = "",
+                  caption = expression(paste("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.")))
+
+p
+
+path = paste0(here::here(),"/Output/ENVIPE_Region_Hogar.pdf")
+ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
+```
+![](../Output/ENVIPE_Region_Hogar.png)
