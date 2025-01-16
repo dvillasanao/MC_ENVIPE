@@ -6,10 +6,13 @@ output:
    html_document:
       highlight: tango
       theme: flatly
+      code_folding: show
       toc: yes
-      toc_depth: 2
+      toc_depth: 3
       toc_float:
         collapsed: yes
+includes:
+  in_header: local.js
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -82,7 +85,7 @@ h3 {
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = FALSE, cache.lazy = FALSE, 
-                         eval = FALSE, class.source = "fold-show")
+                         eval = TRUE, class.source = "fold-show")
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 options(digits = 2, encoding = "UTF8")
 ```   
@@ -96,13 +99,217 @@ rm(list = ls())
 setwd(here::here())
 ```
 
-
-```{r}
-require(readxl)
-require(dplyr)
+```{r, echo=FALSE, results = FALSE, message= FALSE, warning= FALSE}
+#Font Stlye
+require(showtext)
+library(extrafont)
+# activar showtext
+#ttf_import('../AppData/Local/Microsoft/Windows/Fonts/')
+windowsFonts()
 ```
 
+```{r, echo = FALSE}
+require(readxl)
+require(dplyr)
+require(gt)
+require(ggplot2)
+require(ggpubr)
+require(ggrepel)
+```
+
+**Bases de datos**
+
+
+## Personas 
+
+AP4_11_10 4.11 Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?
+
 ```{r}
-data <- read_xlsx(paste0(here::here(), "/Bases/ENVIPE 2011 - 2024.xlsx"))
+Personas <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
+                      sheet = "Promedios", 
+                      range = "C5:L19",
+                      col_names = TRUE)
+```
+
+
+
+
+
+
+
+<div style="height:330px; overflow:auto;">
+```{r, echo = FALSE}
+require(gt)
+
+Personas %>% 
+ gt() %>%
+  tab_header(title = "Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?",
+             subtitle = "Total de personas que cambiaron de vivienda o lugar de residencia") %>%
+   fmt_integer(columns = names(Personas)[2:7], 
+               sep_mark = " ") %>%
+    fmt_number(columns = names(Personas)[8:10], 
+                decimals = 4) %>%
+     tab_options(heading.title.font.size = 14, 
+                 heading.subtitle.font.size = 12,
+                 table.font.names = "Century Gothic",
+                 table.font.size = 10,
+                 table.align = 'center',
+                 data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "left", 
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+      tab_style(style = list(cell_text(align = "left")),
+                locations = list(cells_title(groups = c("subtitle")))) %>%
+      tab_style(style = "vertical-align:middle; font-weight: bold",
+                locations = cells_column_labels()) %>%
+       cols_label(
+                  Est = md("**Estimación**"),
+                  CI = "CI (5%)",
+                  CS = "CS (95%)",
+                  P.2años = "Promedio (2 años)",
+                  P.3años = "Promedio (3 años)",
+                  P.4años = "Promedio (4 años)",
+                  Var.2años = "Variación (2 años)",
+                  Var.3años = "Variación (3 años)",
+                  Var.4años = "Variación (4 años)",
+                ) %>%
+       tab_footnote(footnote = "Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.") %>%
+        as_raw_html() 
+```
+</div>
+
+### Comparativos{.tabset .tabset-pills}
+
+#### Promedio de 2 años
+
+```{r, eval = FALSE, class.source = "fold-hide"}
+p <- Personas %>% 
+      ggplot(aes(x = Año, y = Est)) + 
+       geom_point(aes(color = "LINE1")) + 
+        geom_line(aes(color = "LINE1")) + 
+        geom_ribbon(aes(ymin = CI, ymax = CS), 
+                    linetype = 2, 
+                    alpha = 0.1) + 
+        geom_text_repel(aes(label = format(Est, big.mark = " ")),
+                        position = position_jitter(seed = 123),
+                        size = 2,
+                        color = "#900C3F",
+                        angle = 45, 
+                        force = 0.7,
+                        segment.linetype = 1,
+                        direction = c("both"),
+                        family = "Montserrat",
+                          max.overlaps = 2) + 
+         ## Promedio de 2 años 
+          geom_point(aes(x = Año - 0.5, y = P.2años, color = "LINE2")) + 
+          geom_line(aes(x = Año - 0.5, y = P.2años, color = "LINE2")) + 
+          geom_text_repel(aes(x = Año - 0.5, y = P.2años, label = format(P.2años, big.mark = " ")),
+                          position = position_jitter(seed = 123),
+                          size = 2,
+                          color = "#194c65",
+                          angle = 45, 
+                          force = 0.7,
+                          segment.linetype = 1,
+                          direction = c("both"),
+                          family = "Montserrat",
+                          max.overlaps = 2) +
+           ## Variaciones
+           geom_text(aes(x = Año - 0.5, 
+                         y = 150000, 
+                         label = format(Variaciones, digits = 2, nsmall = 1),
+                         color = "LINE3"),
+                     size = 2.5,
+                     vjust = 1,
+                     fontface = "bold",
+                     angle = 90, 
+                     family = "Montserrat"
+                       ) +
+           theme_bw() + 
+            theme(text = element_text(family = "Montserrat"),
+                  axis.text.y = element_text(size = 8),
+                  axis.text.x = element_text(size = 6, angle = 45, vjust = 0),
+                  plot.caption = element_text(size = 7, hjust = 0, vjust = -1.5, family = "Montserrat"),
+            ) +
+             scale_y_continuous(labels = scales::comma) +
+             scale_x_discrete(limits = seq(2011, 2024, 1)) +
+             scale_color_manual(labels = c("Estimaciones",
+                                           "Promedio (2 años)",
+                                           "Variaciones"),
+                                values = c("LINE1" = "#900C3F",
+                                           "LINE2" = "#48b6ec",
+                                           "LINE3" = "#1f42c1")
+                                ) + 
+             labs(title = stringr::str_wrap("Número de personas que declararon haber cambiado de vivienda o lugar de residencia para protegerse de la delincuencia, 2011 - 2023", 80),
+                  subtitle = "Comparativo con el promedio de 2 años",
+                  x = "",
+                  y = "Estimaciones",
+                  color = "",
+                  caption = expression(paste("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.")))
+
+p
+
+path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 2 años.pdf")
+ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
+```
+
+
+
+
+![](../Output/ENVIPE_Comparativo de 2 años.png)
+
+
+
+
+## Hogares
+
+AP4_11_10 4.11 Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?
+
+```{r}
+Hogares <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
+                     sheet = "Promedios", 
+                     range = "N5:W19",
+                     col_names = TRUE)
+```
+
+
+
+<div style="height:330px; overflow:auto;">
+```{r, echo = FALSE}
+require(gt)
+
+Hogares %>% 
+ gt() %>%
+  tab_header(title = "Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?",
+             subtitle = "Total de personas en los hogares que cambiaron de vivienda o lugar de residencia") %>%
+   fmt_integer(columns = names(Personas)[2:7], 
+               sep_mark = " ") %>%
+    fmt_number(columns = names(Personas)[8:10], 
+                decimals = 4) %>%
+     tab_options(heading.title.font.size = 14, 
+                 heading.subtitle.font.size = 12,
+                 table.font.names = "Century Gothic",
+                 table.font.size = 10,
+                 table.align = 'center',
+                 data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "left", 
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+      tab_style(style = list(cell_text(align = "left")),
+                locations = list(cells_title(groups = c("subtitle")))) %>%
+      tab_style(style = "vertical-align:middle; font-weight: bold",
+                locations = cells_column_labels()) %>%
+       cols_label(
+                  Est = md("**Estimación**"),
+                  CI = "CI (5%)",
+                  CS = "CS (95%)",
+                  P.2años = "Promedio (2 años)",
+                  P.3años = "Promedio (3 años)",
+                  P.4años = "Promedio (4 años)",
+                  Var.2años = "Variación (2 años)",
+                  Var.3años = "Variación (3 años)",
+                  Var.4años = "Variación (4 años)",
+                ) %>%
+       tab_footnote(footnote = "Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.") %>%
+        as_raw_html() 
 ```
 
