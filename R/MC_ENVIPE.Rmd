@@ -178,7 +178,7 @@ Personas %>%
 ```
 </div>
 
-### Comparativos{.tabset .tabset-pills}
+### Comparativos a nivel Nacional{.tabset .tabset-pills}
 
 #### Promedio de 2 años
 
@@ -466,7 +466,7 @@ Hogares %>%
 </div>
 
 
-### Comparativos{.tabset .tabset-pills}
+### Comparativos a nivel Nacional{.tabset .tabset-pills}
 
 #### Promedio de 2 años
 
