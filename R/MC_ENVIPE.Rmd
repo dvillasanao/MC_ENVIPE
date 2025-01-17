@@ -172,11 +172,39 @@ La encuesta recoge información sobre:
 
     -   Niveles de denuncia y razones para no denunciar (desconfianza, trámites complicados, etc.).
 
--   **Medidas de autoprotección**: Acciones que los ciudadanos toman para evitar ser víctimas de delitos. 
+-   **Medidas de autoprotección**: Acciones que los ciudadanos toman para evitar ser víctimas de delitos.
 
-## Diseño muestral   
+## Diseño muestral
 
+La ENVIPE utiliza un diseño probabilístico, estratificado, por conglomerados y en múltiples etapas. Sus características son:
 
+**Población objetivo**
+
+La encuesta está dirigida a la población de 18 años cumplidos o más, que reside permanentemente en viviendas particulares dentro del territorio nacional.
+
+**Cobertura geográfica**
+
+La encuesta está diseñada para dar resultados a los siguientes niveles de desagregación:
+
+-   Nacional.
+
+    -   Urbano.
+
+    -   Rural.
+
+-   Entidad federativa.
+
+-   34 áreas urbanas de interés, con la Ciudad de México dividida en cuatro regiones geográficas (Norte, sur, oriente y poniente).
+
+### Marco muestral
+
+El diseño de la muestra para la ENVIPE se caracteriza por ser **probabilístico**; a la vez, el diseño es **trietápico**, **estratificado** y por **conglomerados**, donde la unidad última de selección es la vivienda y las unidades de observación son los hogares y las personas de 18 años cumplidos o más.
+
+**Unidad Primaria de Muestreo (UPM)**
+
+La división política del país y la conformación de localidades diferenciadas por su tamaño, forman de manera natural una estratificación geográfica. En cada entidad federativa se distinguen tres ámbitos, divididos a su vez en zonas, como se indica en el siguiente cuadro:
+
+![](../Output/Estratificación.png){width=70% style="display: block; margin: auto;"}
 
 **Bases de datos**
 
