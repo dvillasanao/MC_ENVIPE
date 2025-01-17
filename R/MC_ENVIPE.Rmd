@@ -1,5 +1,5 @@
 ---
-title: "Muestreo Complejo"
+title: "Tendencias temporales de las personas que declararon cambiar de residencia como medida de protección contra la delincuencia"
 subtitle: 'Encuesta Nacional de Victimización y Percepción sobre la Pública (ENVIPE)'
 author: "Diana Villasana Ocampo"
 output:
@@ -200,17 +200,67 @@ La encuesta está diseñada para dar resultados a los siguientes niveles de desa
 
 El diseño de la muestra para la ENVIPE se caracteriza por ser **probabilístico**; a la vez, el diseño es **trietápico**, **estratificado** y por **conglomerados**, donde la unidad última de selección es la vivienda y las unidades de observación son los hogares y las personas de 18 años cumplidos o más.
 
-**Unidad Primaria de Muestreo (UPM)**
+#### Unidad Primaria de Muestreo (`UPM`)
 
 La división política del país y la conformación de localidades diferenciadas por su tamaño, forman de manera natural una estratificación geográfica. En cada entidad federativa se distinguen tres ámbitos, divididos a su vez en zonas, como se indica en el siguiente cuadro:
 
-![](../Output/Estratificación.png){width=70% style="display: block; margin: auto;"}
 
-**Bases de datos**
+<figure>
+![](../Output/Estratificación.png){width=70% style="display: block; margin: auto;"}
+<figcaption style="text-align: center;">
+    Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública.
+  </figcaption>
+</figure>
+
+
+#### Estratificación  
+
+Se formaron cuatro estratos sociodemográficos en los que se agruparon todas las UPM del país, esta estratificación considera las características sociodemográficas de los habitantes de las viviendas, así como las características físicas y el equipamiento de las mismas, expresadas por medio de 34 indicadores* construidos con información del Censo de Población y Vivienda 2010, para lo cual se emplearon métodos estadísticos multivariados.   
+
+
+::: {style="height:350px; overflow:auto;"}
+```{r, echo = FALSE}
+require(gt)
+tabla <- read_xlsx(path = paste0(here::here(), "/Bases/Tablas.xlsx"))
+
+tabla %>%
+ group_by(Grupo) %>% 
+ gt() %>% 
+  tab_header(
+             title = "Indicadores empleados en la estratificación de la muestra maestra",
+             subtitle = "ENVIPE") %>% 
+  tab_options(heading.title.font.size = 16, 
+              heading.subtitle.font.size = 14,
+              column_labels.font.size = 12, 
+              table.font.size = 10,
+              row_group.font.size = 12) %>%
+  tab_style(style = list(cell_text(align = "left", 
+                                   weight = 'bold')),
+            locations = list(cells_title(groups = c("title")))) %>%
+  tab_style(style = list(cell_text(align = "left")),
+            locations = list(cells_title(groups = c("subtitle")))) %>%
+  tab_style(style = "vertical-align:middle; font-weight: bold",
+            locations = cells_column_labels()) %>%
+  tab_source_note(
+                  source_note = md("Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública.")) %>% 
+   as_raw_html() 
+    
+
+```
+:::
+
+
+
+## Bases de datos    
+
+A continuación se analizan las tendencias temporales (2011-2023) de las personas que declararon cambiar su residencia como medida de protección contra la delincuencia. El análisis abarca datos por individuo, integrantes del hogar, región y dominio.    
+
+> `AP4_11_10 4.11` Durante 202x, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?
+
 
 ## Personas
 
-AP4_11_10 4.11 Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?
+AP4_11_10 4.11 Durante 202x, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?
 
 ```{r}
 Personas <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
@@ -219,7 +269,7 @@ Personas <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"),
                       col_names = TRUE)
 ```
 
-::: {style="height:330px; overflow:auto;"}
+::: {style="height:350px; overflow:auto;"}
 ```{r, echo = FALSE}
 require(gt)
 
@@ -495,6 +545,35 @@ Region <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"),
                     col_names = TRUE)
 ```
 
+
+::: {style="height:300px; overflow:auto;"}
+```{r, echo = FALSE}
+require(gt)
+
+Region %>% 
+ gt() %>%
+  tab_header(title = "Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?",
+             subtitle = "Personas que cambiaron de vivienda o lugar de residencia por Región") %>%
+   fmt_integer(columns = names(Region)[2:15], 
+               sep_mark = " ") %>%
+     tab_options(heading.title.font.size = 14, 
+                 heading.subtitle.font.size = 12,
+                 table.font.names = "Century Gothic",
+                 table.font.size = 10,
+                 table.align = 'center',
+                 data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "left", 
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+      tab_style(style = list(cell_text(align = "left")),
+                locations = list(cells_title(groups = c("subtitle")))) %>%
+      tab_style(style = "vertical-align:middle; font-weight: bold",
+                locations = cells_column_labels()) %>%
+       tab_footnote(footnote = "Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.") %>%
+        as_raw_html() 
+```
+:::
+
 ```{r, eval = FALSE, class.source = "fold-hide"}
 require(reshape2)
 require(Hmisc)
@@ -548,6 +627,35 @@ Dominio <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"),
                      range = "C47:Q51",
                      col_names = TRUE)
 ```
+
+
+::: {style="height:300px; overflow:auto;"}
+```{r, echo = FALSE}
+require(gt)
+
+Dominio %>% 
+ gt() %>%
+  tab_header(title = "Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?",
+             subtitle = "Personas que cambiaron de vivienda o lugar de residencia por Dominio") %>%
+   fmt_integer(columns = names(Dominio)[2:15], 
+               sep_mark = " ") %>%
+     tab_options(heading.title.font.size = 14, 
+                 heading.subtitle.font.size = 12,
+                 table.font.names = "Century Gothic",
+                 table.font.size = 10,
+                 table.align = 'center',
+                 data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "left", 
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+      tab_style(style = list(cell_text(align = "left")),
+                locations = list(cells_title(groups = c("subtitle")))) %>%
+      tab_style(style = "vertical-align:middle; font-weight: bold",
+                locations = cells_column_labels()) %>%
+       tab_footnote(footnote = "Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.") %>%
+        as_raw_html() 
+```
+:::
 
 ```{r, eval = FALSE, class.source = "fold-hide"}
 require(reshape2)
@@ -605,7 +713,7 @@ Hogares <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"),
                      col_names = TRUE)
 ```
 
-::: {style="height:330px; overflow:auto;"}
+::: {style="height:350px; overflow:auto;"}
 ```{r, echo = FALSE}
 require(gt)
 
@@ -613,9 +721,9 @@ Hogares %>%
  gt() %>%
   tab_header(title = "Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?",
              subtitle = "Total de personas en los hogares que cambiaron de vivienda o lugar de residencia") %>%
-   fmt_integer(columns = names(Personas)[2:7], 
+   fmt_integer(columns = names(Hogares)[2:7], 
                sep_mark = " ") %>%
-    fmt_number(columns = names(Personas)[8:10], 
+    fmt_number(columns = names(Hogares)[8:10], 
                 decimals = 4) %>%
      tab_options(heading.title.font.size = 14, 
                  heading.subtitle.font.size = 12,
@@ -640,7 +748,9 @@ Hogares %>%
                   Var.2años = "Variación (2 años)",
                   Var.3años = "Variación (3 años)",
                   Var.4años = "Variación (4 años)",
-                ) %>%
+                ) %>% 
+       cols_width(starts_with("CI") ~ px(80),
+                  everything() ~ px(80)) %>%
        tab_footnote(footnote = "Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.") %>%
         as_raw_html() 
 ```
@@ -881,6 +991,36 @@ Region_Hogar <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xls
                           col_names = TRUE)
 ```
 
+
+::: {style="height:300px; overflow:auto;"}
+```{r, echo = FALSE}
+require(gt)
+
+Region_Hogar %>% 
+ gt() %>%
+  tab_header(title = "Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?",
+             subtitle = "Total de personas que cambiaron de vivienda o lugar de residencia por Región") %>%
+   fmt_integer(columns = names(Region_Hogar)[2:15], 
+               sep_mark = " ") %>%
+     tab_options(heading.title.font.size = 14, 
+                 heading.subtitle.font.size = 12,
+                 table.font.names = "Century Gothic",
+                 table.font.size = 10,
+                 table.align = 'center',
+                 data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "left", 
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+      tab_style(style = list(cell_text(align = "left")),
+                locations = list(cells_title(groups = c("subtitle")))) %>%
+      tab_style(style = "vertical-align:middle; font-weight: bold",
+                locations = cells_column_labels()) %>%
+       tab_footnote(footnote = "Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.") %>%
+        as_raw_html() 
+```
+:::
+
+
 ```{r, eval = FALSE, class.source = "fold-hide"}
 require(reshape2)
 require(Hmisc)
@@ -934,6 +1074,36 @@ Dominio_Hogar <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xl
                            range = "T47:AH51",
                            col_names = TRUE)
 ```
+
+
+::: {style="height:200px; overflow:auto;"}
+```{r, echo = FALSE}
+require(gt)
+
+Dominio_Hogar %>% 
+ gt() %>%
+  tab_header(title = "Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?",
+             subtitle = "Total de personas que cambiaron de vivienda o lugar de residencia por Dominio") %>%
+   fmt_integer(columns = names(Dominio_Hogar)[2:15], 
+               sep_mark = " ") %>%
+     tab_options(heading.title.font.size = 14, 
+                 heading.subtitle.font.size = 12,
+                 table.font.names = "Century Gothic",
+                 table.font.size = 10,
+                 table.align = 'center',
+                 data_row.padding = px(1)) %>%
+      tab_style(style = list(cell_text(align = "left", 
+                                       weight = 'bold')),
+                locations = list(cells_title(groups = c("title")))) %>%
+      tab_style(style = list(cell_text(align = "left")),
+                locations = list(cells_title(groups = c("subtitle")))) %>%
+      tab_style(style = "vertical-align:middle; font-weight: bold",
+                locations = cells_column_labels()) %>%
+       tab_footnote(footnote = "Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.") %>%
+        as_raw_html() 
+```
+:::
+
 
 ```{r, eval = FALSE, class.source = "fold-hide"}
 require(reshape2)
