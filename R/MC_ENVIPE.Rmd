@@ -88,8 +88,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, cache = FAL
                          eval = TRUE, class.source = "fold-show")
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 options(digits = 2, encoding = "UTF8")
-```   
- 
+```
 
 ```{r, echo=FALSE}
 rm(list = ls())
@@ -119,10 +118,69 @@ require(knitr)
 require(kableExtra)
 ```
 
+La Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública [(`ENVIPE`)](https://www.inegi.org.mx/programas/envipe/2024/) es un instrumento estadístico diseñado por el Instituto Nacional de Estadística y Geografía [(`INEGI`)](https://www.inegi.org.mx/default.html) en México. Su objetivo principal es generar información sobre la magnitud y características de la victimización en el país, así como evaluar la percepción de los ciudadanos sobre la seguridad pública y el desempeño de las instituciones encargadas de la justicia y la seguridad.
+
+La importancia de la ENVIPE:
+
+-   Planeación y diseño de políticas públicas: Proporciona datos fundamentales para que los gobiernos federal, estatal y municipal diseñen estrategias de prevención del delito.
+
+-   Evaluación del sistema de justicia: Permite identificar áreas de oportunidad en las instituciones encargadas de la seguridad pública y la justicia.
+
+-   Información para académicos y sociedad civil: Los datos son utilizados en investigaciones y análisis independientes que buscan mejorar el entendimiento del fenómeno delictivo en México.
+
+## Características
+
+El propósito de la ENVIPE es proporcionar datos representativos y confiables para entender:
+
+-   **La prevalencia delictiva**: Cuántas personas han sido víctimas de delitos en el último año.
+
+-   **El impacto de la delincuencia**: Analizar las consecuencias económicas, sociales y psicológicas de los delitos.
+
+-   **La percepción de seguridad**: Evaluar cómo las personas perciben su entorno en términos de seguridad, a nivel local, estatal y nacional.
+
+-   **La confianza en las autoridades**: Medir la opinión pública sobre las instituciones de seguridad pública, justicia y procuración de justicia.
+
+-   **La cifra negra:** Identificar los delitos que no son denunciados o que, aunque son denunciados, no se investigan, revelando el nivel de subregistro.
+
+## Tipo de información
+
+La encuesta recoge información sobre:
+
+-   **Características sociodemográficas de los hogares y las personas**: Edad, sexo, nivel educativo, ocupación, entre otros.
+
+-   **Victimización:**
+
+    -   Delitos más comunes (robos, fraudes, extorsiones, etc.).
+
+    -   Lugares y momentos en que ocurren.
+
+    -   Medios utilizados por los delincuentes.
+
+    -   Perfiles de las víctimas.
+
+-   **Costos del delito**: Incluye pérdidas materiales, costos emocionales y gastos relacionados con medidas preventivas.
+
+-   **Percepción de inseguridad:**
+
+    -   Opinión sobre la seguridad en espacios públicos como calles, parques, mercados y transporte público.
+
+    -   Sensación de inseguridad a nivel estatal y nacional.
+
+-   **Confianza y desempeño de las instituciones**:
+
+    -   Opinión sobre la policía, el Ministerio Público, el ejército, la Guardia Nacional, entre otros.
+
+    -   Niveles de denuncia y razones para no denunciar (desconfianza, trámites complicados, etc.).
+
+-   **Medidas de autoprotección**: Acciones que los ciudadanos toman para evitar ser víctimas de delitos. 
+
+## Diseño muestral   
+
+
+
 **Bases de datos**
 
-
-## Personas 
+## Personas
 
 AP4_11_10 4.11 Durante 2023, para protegerse de la delincuencia, ¿en este hogar se realizó algún tipo de medida como… cambiarse de vivienda o lugar de residencia?
 
@@ -133,13 +191,7 @@ Personas <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"),
                       col_names = TRUE)
 ```
 
-
-
-
-
-
-
-<div style="height:330px; overflow:auto;">
+::: {style="height:330px; overflow:auto;"}
 ```{r, echo = FALSE}
 require(gt)
 
@@ -178,9 +230,9 @@ Personas %>%
        tab_footnote(footnote = "Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.") %>%
         as_raw_html() 
 ```
-</div>
+:::
 
-### Comparativos a nivel Nacional{.tabset .tabset-pills}
+### Comparativos a nivel Nacional {.tabset .tabset-pills}
 
 #### Promedio de 2 años
 
@@ -254,10 +306,7 @@ path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 2 años.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
 
-
-
-![](../Output/ENVIPE_Comparativo de 2 años.png)
-
+![](../Output/ENVIPE_Comparativo%20de%202%20años.png)
 
 #### Promedio de 3 años
 
@@ -332,9 +381,7 @@ path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 3 años.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
 
-
-
-![](../Output/ENVIPE_Comparativo de 3 años.png)
+![](../Output/ENVIPE_Comparativo%20de%203%20años.png)
 
 #### Promedio de 4 años
 
@@ -409,11 +456,9 @@ path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 4 años.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
 
+![](../Output/ENVIPE_Comparativo%20de%204%20años.png)
 
-
-![](../Output/ENVIPE_Comparativo de 4 años.png)
-
-### Comparativos a nivel Regional{.tabset .tabset-pills}
+### Comparativos a nivel Regional {.tabset .tabset-pills}
 
 ```{r}
 Region <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
@@ -421,8 +466,6 @@ Region <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"),
                     range = "C39:Q45",
                     col_names = TRUE)
 ```
-
-
 
 ```{r, eval = FALSE, class.source = "fold-hide"}
 require(reshape2)
@@ -466,11 +509,10 @@ p
 path = paste0(here::here(),"/Output/ENVIPE_Region.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
+
 ![](../Output/ENVIPE_Region.png)
 
-
-
-### Comparativos a nivel Dominio{.tabset .tabset-pills}
+### Comparativos a nivel Dominio {.tabset .tabset-pills}
 
 ```{r}
 Dominio <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
@@ -478,8 +520,6 @@ Dominio <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"),
                      range = "C47:Q51",
                      col_names = TRUE)
 ```
-
-
 
 ```{r, eval = FALSE, class.source = "fold-hide"}
 require(reshape2)
@@ -524,9 +564,7 @@ path = paste0(here::here(),"/Output/ENVIPE_Dominio.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
 
-
 ![](../Output/ENVIPE_Dominio.png)
-
 
 ## Hogares
 
@@ -539,9 +577,7 @@ Hogares <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"),
                      col_names = TRUE)
 ```
 
-
-
-<div style="height:330px; overflow:auto;">
+::: {style="height:330px; overflow:auto;"}
 ```{r, echo = FALSE}
 require(gt)
 
@@ -580,10 +616,9 @@ Hogares %>%
        tab_footnote(footnote = "Fuente: INEGI. Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública, 2010 - 2023.") %>%
         as_raw_html() 
 ```
-</div>
+:::
 
-
-### Comparativos a nivel Nacional{.tabset .tabset-pills}
+### Comparativos a nivel Nacional {.tabset .tabset-pills}
 
 #### Promedio de 2 años
 
@@ -657,10 +692,7 @@ path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 2 años_Hogar.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
 
-
-
-![](../Output/ENVIPE_Comparativo de 2 años_Hogar.png)
-
+![](../Output/ENVIPE_Comparativo%20de%202%20años_Hogar.png)
 
 #### Promedio de 3 años
 
@@ -735,9 +767,7 @@ path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 3 años_Hogar.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
 
-
-
-![](../Output/ENVIPE_Comparativo de 3 años_Hogar.png)
+![](../Output/ENVIPE_Comparativo%20de%203%20años_Hogar.png)
 
 #### Promedio de 4 años
 
@@ -812,13 +842,9 @@ path = paste0(here::here(),"/Output/ENVIPE_Comparativo de 4 años_Hogar.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
 
+![](../Output/ENVIPE_Comparativo%20de%204%20años_Hogar.png)
 
-
-![](../Output/ENVIPE_Comparativo de 4 años_Hogar.png)
-
-
-
-### Comparativos a nivel Regional{.tabset .tabset-pills}
+### Comparativos a nivel Regional {.tabset .tabset-pills}
 
 ```{r}
 Region_Hogar <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
@@ -826,8 +852,6 @@ Region_Hogar <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xls
                           range = "T39:AH45",
                           col_names = TRUE)
 ```
-
-
 
 ```{r, eval = FALSE, class.source = "fold-hide"}
 require(reshape2)
@@ -871,9 +895,10 @@ p
 path = paste0(here::here(),"/Output/ENVIPE_Region_Hogar.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
+
 ![](../Output/ENVIPE_Region_Hogar.png)
 
-### Comparativos a nivel Dominio{.tabset .tabset-pills}
+### Comparativos a nivel Dominio {.tabset .tabset-pills}
 
 ```{r}
 Dominio_Hogar <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xlsx"), 
@@ -881,8 +906,6 @@ Dominio_Hogar <- read_xlsx(paste0(here::here(), "/Bases/MC_ENVIPE 2011 - 2024.xl
                            range = "T47:AH51",
                            col_names = TRUE)
 ```
-
-
 
 ```{r, eval = FALSE, class.source = "fold-hide"}
 require(reshape2)
@@ -927,7 +950,6 @@ path = paste0(here::here(),"/Output/ENVIPE_Dominio_Hogar.pdf")
 ggexport(list = p, width = 10, height = 5, dpi = 400, filename = path)
 ```
 
-
 ![](../Output/ENVIPE_Dominio_Hogar.png)
 
 ```{r, collapse=FALSE}
@@ -941,4 +963,3 @@ kable(dplyr::select(tibble::as_tibble(sesion_info$packages %>% dplyr::filter(att
 ```
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img src="https://i.creativecommons.org/l/by/4.0/88x31.png" alt="Creative Commons Licence" style="border-width:0"/></a><br />This work by [**Diana Villasana Ocampo**]{xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName"} is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
-
