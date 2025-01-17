@@ -1,33 +1,90 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# MC_ENVIPE
+## Tendencias temporales de las personas que declararon cambiar de residencia como medida de protección contra la delincuencia.
+
+### Encuesta Nacional de Victimización y Percepción sobre la Pública (`ENVIPE`)
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of MC_ENVIPE is to …
+Este repositorio contiene un análisis de las tendencias temporales de
+las personas que declararon haber cambiado de residencia como medida de
+protección contra la delincuencia, utilizando datos de la Encuesta
+Nacional de Victimización y Percepción sobre la Seguridad Pública
+(`ENVIPE`).
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+## Objetivo del Análisis
 
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
+El objetivo principal es identificar las tendencias a lo largo del
+tiempo de los desplazamientos internos motivados por razones de
+seguridad y explorar los patrones subyacentes que pueden ayudar a
+comprender mejor este fenómeno.
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date.
+Además, el análisis enfatiza la importancia de:
 
-You can also embed plots, for example:
+- **Muestreo complejo**: Verificar la representatividad de las encuestas
+  es fundamental para garantizar la validez de los resultados. La ENVIPE
+  utiliza diseños de muestrales que consideran factores como estratos y
+  conglomerados.  
+- **Datos representativos**: Usar correctamente los pesos muestrales
+  para asegurar que las estimaciones reflejen con precisión las
+  características de la población objetivo. Ignorar estas
+  consideraciones puede llevar a resultados sesgados y decisiones mal
+  informadas.
 
-![](README_files/figure-gfm/pressure-1.png)<!-- -->
+## Contenido del Repositorio
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub.
+- **Datos**: Instrucciones para acceder y preparar los datos de la
+  ENVIPE, incluyendo información sobre las variables relevantes para el
+  análisis de migración.
+- **Resultados**: Gráficas y tablas que resumen los hallazgos clave.
+- **Documentación**: Información técnica sobre la ENVIPE y referencias
+  adicionales.
+
+## Importancia del Muestreo Complejo
+
+La ENVIPE utiliza un diseño de muestreo probabilistico, trietápico,
+estratificado y por conglomerados. Esto significa que:
+
+- Los pesos de muestreo asignan una importancia relativa a cada
+  observación para asegurar que las estimaciones sean representativas.
+- La ignorancia de estas estructuras puede subestimar o sobrestimar la
+  variabilidad de las estimaciones, resultando en errores en la
+  interpretación de los resultados.
+
+El uso adecuado de herramientas estadísticas que soporten el muestreo
+complejo, como las funciones del paquete `survey` en `R` o bien en otro
+paquete estadístico, es crucial para garantizar la validez de los
+análisis.
+
+## Consecuencias de Usar Datos No Representativos
+
+El uso de datos no representativos puede tener consecuencias graves,
+entre ellas:
+
+1.  **Estimaciones sesgadas**: Los resultados pueden no reflejar la
+    realidad de la población general, llevando a una comprensión errónea
+    del fenómeno.
+2.  **Decisiones mal informadas**: Políticas basadas en datos sesgados
+    podrían no abordar adecuadamente las necesidades de las personas
+    afectadas.
+3.  **Pérdida de confianza**: Las decisiones basadas en datos
+    incorrectos pueden erosionar la confianza en las instituciones y
+    procesos que las sustentan.
+
+## Requisitos y Herramientas
+
+Para replicar el análisis, necesitará:
+
+- **Software**: R (versión 4.0 o superior).
+- 📦 **Paquetes**: `tidyverse`, `survey`, `ggplot2`, entre otros.
+- **Datos**: Archivos de microdatos de la ENVIPE disponibles en el
+  [INEGI](https://www.inegi.org.mx).
+
+En el siguiente script se muestran las tendencias temporales de las
+estimaciones sobre personas que han tenido que cambiar su residencia por
+motivos de delincuencia.
+
+**Enlace:**
+<https://dvillasanao.github.io/Proyecciones_SHP/Output/Pojection_CRS.html>
